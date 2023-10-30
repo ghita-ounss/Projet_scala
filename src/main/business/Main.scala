@@ -11,23 +11,24 @@ object Main {
     val bibliotheque = new Bibliotheque()
     bibliotheque.chargerDepuisFichier()
 
-    var running = true
-    while (running) {
-      println("\nMenu :")
+    while (true) {
+      println("********************************************************************")
+      println("              Application de Gestion de Bibliothèque")
+      println("********************************************************************")
       println("1. Ajouter un livre")
       println("2. Emprunter un livre")
       println("3. Rendre un livre")
       println("4. Rechercher un livre par titre")
       println("5. Rechercher un livre par auteur")
       println("6. Sauvegarder et quitter")
-      print("Votre choix : ")
+      print("Votre choix (1-6) : ")
 
       val choixInput = scala.io.StdIn.readLine()
       Try(choixInput.toInt) match {
-        case Success(choix) if choix >= 1 && choix <= 6 =>
+        case Success(choix) =>
           choix match {
             case 1 =>
-              println("Ajouter un livre :")
+              println("**************** Ajouter un livre ****************")
               print("Titre : ")
               val titre = scala.io.StdIn.readLine()
               print("Auteur : ")
@@ -52,7 +53,7 @@ object Main {
                 case None => println("Livre ajouté à la bibliothèque.")
               }
             case 2 =>
-              println("Emprunter un livre :")
+              println("**************** Emprunter un livre ****************")
               print("Titre du livre : ")
               val titre = scala.io.StdIn.readLine()
 
@@ -61,7 +62,7 @@ object Main {
                 case None => println(s"Livre avec le titre '$titre' a été emprunté.")
               }
             case 3 =>
-              println("Rendre un livre :")
+              println("**************** Rendre un livre ****************")
               print("Titre du livre : ")
               val titre = scala.io.StdIn.readLine()
               bibliotheque.rendreLivre(titre) match {
@@ -69,13 +70,13 @@ object Main {
                 case None => println(s"Livre avec le titre '$titre' a été rendu.")
               }
             case 4 =>
-              println("Rechercher par titre :")
+              println("**************** Rechercher par titre ****************")
               print("Titre : ")
               val titre = scala.io.StdIn.readLine()
               val resultatsOption = bibliotheque.rechercherParTitre(titre)
               resultatsOption match {
                 case Some(resultats) if resultats.nonEmpty =>
-                  println("Résultats :")
+                println("Résultats :")
                   resultats.foreach(println)
                 case Some(_) =>
                   println(s"Aucun livre trouvé avec le titre '$titre'.")
@@ -83,21 +84,22 @@ object Main {
                   println("Aucun livre trouvé dans la bibliothèque avec le titre spécifié.")
               }
             case 5 =>
-              println("Rechercher par auteur :")
+              println("**************** Rechercher par auteur ****************")
               print("Auteur : ")
               val auteur = scala.io.StdIn.readLine()
               val resultatsOption = bibliotheque.rechercherParAuteur(auteur)
               resultatsOption match {
                 case Some(resultats) if resultats.nonEmpty =>
-                  println("Résultats :")
+                println("Résultats :")
                   resultats.foreach(println)
                 case Some(_) => println(s"Aucun livre trouvé de l'auteur '$auteur'.")
                 case None => println("Aucun livre trouvé dans la bibliothèque de cet auteur.")
               }
             case 6 =>
-              println("Sauvegarde en cours...")
+              println("**************** Sauvegarde en cours... ****************")
               bibliotheque.sauvegarderDansFichier()
-              running = false
+              println("Au revoir !")
+              return
             case _ => println("Choix invalide, veuillez réessayer.")
           }
         case _ =>
